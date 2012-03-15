@@ -35,17 +35,26 @@ def main
 		}
 	end
 
-	#2 Prompts getting the ordered pairs
+
 	pairs = {}
-	[[:start, "Start"], [:end, "End"]].each do |l|
-		print "#{l[1]} Ordered Pair x,y :: "
-		gets.chomp!.scan(/(\d+),(\d+)/).each do |d|
-			pairs[l[0]] = { 
-				:x => d[0].to_i, 
-				:y => d[1].to_i
-			}
+	if (!ARGV) then
+		#2 Prompts getting the ordered pairs
+		[[:start, "Start"], [:end, "End"]].each do |l|
+			print "#{l[1]} Ordered Pair x,y :: "
+			gets.chomp!.scan(/(\d+),(\d+)/).each do |d|
+				pairs[l[0]] = { 
+					:x => d[0].to_i, 
+					:y => d[1].to_i
+				}
+			end
 		end
+	else 
+		pairs = {
+			:start => { :x => ARGV[0].to_i, :y => ARGV[1].to_i },
+			:end   => { :x => ARGV[2].to_i, :y => ARGV[3].to_i }
+		}
 	end
+
 
 	puts "Calculating xdotool from #{pairs[:start]} to #{pairs[:end]}"
 	repositionWindow(pairs[:start], pairs[:end], screens[$useScreen], $grid)
