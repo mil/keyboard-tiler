@@ -2,9 +2,7 @@
 # A CLI to positions windows on the grid of your screen using xdotool
 
 #Prefs
-$useScreen = "LVDS" #Should come from xrandr
 $grid = { :height =>  4, :width  => 10 } #Corresponds to keboard ha
-
 $gridKeys = [
 	[ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
 	[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' ],
@@ -20,7 +18,7 @@ def repositionWindow(squareA, squareB, screen, grid)
 	widthFactor  = screen[:width]  / grid[:width]
 
 	#Calculate Start X and Y
-	startX = squareA[:x] * widthFactor
+	startX = screen[:offsetX] + (squareA[:x] * widthFactor)
 	startY = squareA[:y] * heightFactor
 
 	#Figure out how big to resize to
@@ -34,17 +32,40 @@ end
 
 def main
 
-	#Get the Screens Dimensions
-	screens = {}
-	%x[xrandr --current].scan(/(.+) connected (\d+)x(\d+)+/).map do |screen|
-		screens[screen[0]] = {
-			:width  =>  screen[1].to_i,
-			:height =>  screen[2].to_i,
-		}
+	#Determine Current Window Values from xwin
+	xwin = %x[xwininfo -id $(xdotool getactivewindow)]
+	window = {}
+	{
+		:x => /Absolute upper-left X:\s+(\d+)/,
+		:y => /Absolute upper-left Y:\s+(\d+)/,
+		:width => /Width:\s+(\d+)/,
+		:height => /Height:\s+(\d+)/
+	}.each do |key, regex|
+		window[key] = xwin.scan(regex).join.to_i
 	end
 
 
-	#Find cords to draw within grid
+	#Get the Screens Dimensions from xrandr
+	screens = {}
+	%x[xrandr --current].scan(/(.+) connected (\d+)x(\d+)+/).each_with_index.map do |screen, screenNumber|
+		screens[screenNumber]= {
+			:name   =>  screen[0],
+			:width  =>  screen[1].to_i,
+			:height =>  screen[2].to_i,
+			:offsetX => 0
+		}
+	end
+
+	#Add offset if the window's x more than the first screen's width
+	if (window[:x] > screens[0][:width]) then
+		screenNumber = 1
+		screens[1][:offsetX] = screens[0][:width]
+	else
+		screenNumber = 0
+	end
+	
+
+	#Process ARGS to get pairs on the grid
 	pairs = {}
 	if (!ARGV) then
 		#2 Prompts getting the ordered pairs
@@ -58,7 +79,6 @@ def main
 			end
 		end
 	elsif (ARGV.length == 2)
-		#Passed in keys
 		ARGV.each_with_index do |arg, index|
 			puts arg.to_s[1]
 			$gridKeys.each_with_index do |row, column|
@@ -80,9 +100,8 @@ def main
 	end
 
 
-	#Fire to xdotool
 	puts "Calculating xdotool from #{pairs[:start]} to #{pairs[:end]}"
-	repositionWindow(pairs[:start], pairs[:end], screens[$useScreen], $grid)
+	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber], $grid)
 end
 
 main
