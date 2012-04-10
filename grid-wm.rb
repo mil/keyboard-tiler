@@ -34,20 +34,20 @@ def main
 	#Determine Current Window Values from xwin
 	xwin = %x[xwininfo -id $(xdotool getactivewindow)]
 	window = {
-		:x 		=> xwin.scan(/Absolute upper-left X:\s+(\d+)/).join.to_i,
-		:y 		=> xwin.scan(/Absolute upper-left Y:\s+(\d+)/).join.to_i,
-		:width 	=> xwin.scan(/Width:\s+(\d+)/).join.to_i,
-		:height => xwin.scan(/Height:\s+(\d+)/).join.to_i	
+		:x		=> xwin.scan(/Absolute upper-left X:\s+(\d+)/).join.to_i,
+		:y		=> xwin.scan(/Absolute upper-left Y:\s+(\d+)/).join.to_i,
+		:width	=> xwin.scan(/Width:\s+(\d+)/).join.to_i,
+		:height	=> xwin.scan(/Height:\s+(\d+)/).join.to_i	
 	}
 
 	#Get the Screens Dimensions from xrandr
 	screens = {}
 	%x[xrandr --current].scan(/(.+) connected (\d+)x(\d+)+/).each_with_index.map do |screen, screenNumber|
 		screens[screenNumber]= {
-			:name   	=>  screen[0],
-			:width  	=>  screen[1].to_i,
-			:height 	=>  screen[2].to_i,
-			:offsetX 	=> 	0
+			:name		=>  screen[0],
+			:width		=>  screen[1].to_i,
+			:height		=>  screen[2].to_i,
+			:offsetX	=> 	0
 		}
 	end
 
@@ -76,6 +76,15 @@ def main
 		:width => $grid[0].length,
 		:height => $grid.length
 	}
+
+	#Swap values if start is further in then end
+	if (
+		(pairs[:start][:x] > pairs[:end][:x]) || 
+		(pairs[:start][:y] > pairs[:end][:y])
+	) then
+		pairs[:start], pairs[:end] = pairs[:end], pairs[:start]
+	end
+
 
 	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber], gridDimensions)
 end
