@@ -1,21 +1,20 @@
 #!/usr/bin/ruby
 # A CLI to positions windows on the grid of your screen using xdotool
 
-#Prefs
-$grid = { :height =>  4, :width  => 10 } #Corresponds to keboard ha
-$gridKeys = [
+#The Grid you want to use for positioning, default is center of US Keyboard
+$grid = [
 	[ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
 	[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' ],
 	[ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';' ],
 	[ 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/' ]
 ]
+#Height of your window decorations, just set 0 if none
+$decorationsHeight = 20
 
-
-#Based on the 
-def repositionWindow(squareA, squareB, screen, grid) 
+def repositionWindow(squareA, squareB, screen, gridDimensions) 
 	#Calculate Height and width factor based on passed screen and grid
-	heightFactor = screen[:height] / grid[:height]
-	widthFactor  = screen[:width]  / grid[:width]
+	heightFactor = screen[:height] / gridDimensions[:height]
+	widthFactor  = screen[:width]  / gridDimensions[:width]
 
 	#Calculate Start X and Y
 	startX = screen[:offsetX] + (squareA[:x] * widthFactor)
@@ -26,33 +25,29 @@ def repositionWindow(squareA, squareB, screen, grid)
 	newHeight = (squareB[:y] - squareA[:y] + 1) * heightFactor 
 
 	#Fire to xdotool move and resize commands
-	%x[xdotool getactivewindow windowmove --sync #{startX} #{20 + startY}]
-	%x[xdotool getactivewindow windowsize --sync #{newWidth} #{newHeight - 40 }]
+	%x[xdotool getactivewindow windowmove --sync #{startX} #{$decorationsHeight + startY}]
+	%x[xdotool getactivewindow windowsize --sync #{newWidth} #{newHeight - ($decorationsHeight * 2)}]
 end
 
 def main
 
 	#Determine Current Window Values from xwin
 	xwin = %x[xwininfo -id $(xdotool getactivewindow)]
-	window = {}
-	{
-		:x => /Absolute upper-left X:\s+(\d+)/,
-		:y => /Absolute upper-left Y:\s+(\d+)/,
-		:width => /Width:\s+(\d+)/,
-		:height => /Height:\s+(\d+)/
-	}.each do |key, regex|
-		window[key] = xwin.scan(regex).join.to_i
-	end
-
+	window = {
+		:x 		=> xwin.scan(/Absolute upper-left X:\s+(\d+)/).join.to_i,
+		:y 		=> xwin.scan(/Absolute upper-left Y:\s+(\d+)/).join.to_i,
+		:width 	=> xwin.scan(/Width:\s+(\d+)/).join.to_i,
+		:height => xwin.scan(/Height:\s+(\d+)/).join.to_i	
+	}
 
 	#Get the Screens Dimensions from xrandr
 	screens = {}
 	%x[xrandr --current].scan(/(.+) connected (\d+)x(\d+)+/).each_with_index.map do |screen, screenNumber|
 		screens[screenNumber]= {
-			:name   =>  screen[0],
-			:width  =>  screen[1].to_i,
-			:height =>  screen[2].to_i,
-			:offsetX => 0
+			:name   	=>  screen[0],
+			:width  	=>  screen[1].to_i,
+			:height 	=>  screen[2].to_i,
+			:offsetX 	=> 	0
 		}
 	end
 
@@ -63,45 +58,26 @@ def main
 	else
 		screenNumber = 0
 	end
-	
 
 	#Process ARGS to get pairs on the grid
 	pairs = {}
-	if (!ARGV) then
-		#2 Prompts getting the ordered pairs
-		[[:start, "Start"], [:end, "End"]].each do |l|
-			print "#{l[1]} Ordered Pair x,y :: "
-			gets.chomp!.scan(/(\d+),(\d+)/).each do |d|
-				pairs[l[0]] = { 
-					:x => d[0].to_i, 
-					:y => d[1].to_i
-				}
-			end
-		end
-	elsif (ARGV.length == 2)
-		ARGV.each_with_index do |arg, index|
-			puts arg.to_s[1]
-			$gridKeys.each_with_index do |row, column|
-				row.each_with_index do |cell, count|
-					if (cell == arg) then
-						puts "#{index} cell is at #{count} #{column}"
-
-						label = (index == 0) ? :start : :end
-						pairs[label] =  { :x => count, :y => column }
-					end
+	ARGV[0].scan(/./).each_with_index do |arg, index|
+		$grid.each_with_index do |row, column|
+			row.each_with_index do |cell, count|
+				if (cell == arg) then
+					label = (index == 0) ? :start : :end
+					pairs[label] =  { :x => count, :y => column }
 				end
 			end
-		end	
-	else 
-		pairs = {
-			:start => { :x => ARGV[0].to_i, :y => ARGV[1].to_i },
-			:end   => { :x => ARGV[2].to_i, :y => ARGV[3].to_i }
-		}
-	end
+		end
+	end	
 
+	gridDimensions = {
+		:width => $grid[0].length,
+		:height => $grid.length
+	}
 
-	puts "Calculating xdotool from #{pairs[:start]} to #{pairs[:end]}"
-	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber], $grid)
+	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber], gridDimensions)
 end
 
 main
