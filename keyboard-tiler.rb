@@ -1,8 +1,10 @@
 #!/usr/bin/ruby
-# A CLI to positions windows on the grid of your screen using xdotool
+# keyboard-tiler: A CLI to positions windows on the grid of your screen using xdotool
+# Usage: 
+# keyboard-tiler a/  (This would place the window on the bottom half of your screen)
 
-#The Grid you want to use for positioning, default is center of US Keyboard
-$grid = [
+#The Tiles you want to use for positioning, default is center of US Keyboard
+$tiles = [
 	[ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
 	[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' ],
 	[ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';' ],
@@ -62,7 +64,7 @@ def main
 	#Process ARGS to get pairs on the grid
 	pairs = {}
 	ARGV[0].scan(/./).each_with_index do |arg, index|
-		$grid.each_with_index do |row, column|
+		$tiles.each_with_index do |row, column|
 			row.each_with_index do |cell, count|
 				if (cell == arg) then
 					label = (index == 0) ? :start : :end
@@ -73,8 +75,8 @@ def main
 	end	
 
 	gridDimensions = {
-		:width => $grid[0].length,
-		:height => $grid.length
+		:width => $tiles[0].length,
+		:height => $tiles.length
 	}
 
 	#Swap values if start is further in then end

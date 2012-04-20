@@ -4,7 +4,7 @@
 #Use this script like: ruby generate-xchainkeys.rb > ~/.config/xchainkeys/xchainkeys.config
 
 #Should correspond to the Grid Your using in grid-wm
-$gridKeys = [
+$tiles = [
 	[ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
 	[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' ],
 	[ 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';' ],
@@ -15,7 +15,7 @@ $gridKeys = [
 $chain = "W-x"
 
 #This assumes you copied grid-wm to a folder called bin in home directory
-$gridWmLocation = "~/bin/grid-wm" 
+$keyboardTilerLocation = "~/bin/keyboard-tiler.rb" 
 
 puts [
 	"feedback on",
@@ -26,7 +26,7 @@ puts [
 ]
 
 def crawl(s)
-	$gridKeys.each_with_index do |row, column|
+	$tiles.each_with_index do |row, column|
 		row.each_with_index do |cell, count|
 			if (cell != s) then
 				replacements = {
@@ -39,14 +39,14 @@ def crawl(s)
 				s1 = replacements[s] || s
 				cell1 = replacements[cell] || cell
 
-				puts "#{$chain} #{s1} #{cell1} :exec #{$gridWmLocation} '#{s}#{cell}'"
+				puts "#{$chain} #{s1} #{cell1} :exec #{$keyboardTilerLocation} '#{s}#{cell}'"
 			end
 		end
 	end
 end
 
 #Generate all permutations (2 key presses)
-$gridKeys.each_with_index do |row, column|
+$tiles.each_with_index do |row, column|
 	row.each_with_index do |cell, count|
 			crawl(cell)
 	end
