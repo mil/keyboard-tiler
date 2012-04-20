@@ -1,9 +1,9 @@
 #!/usr/bin/ruby
 #Used to generate a xchainkeys config file (~/.config/xchainkeys/xchainkeys.conf)
-#Will use the chain of W-x to enter grid-wm
-#This assumes that you have grid-wm as an alias or in your PATH
-#Use this script like: ruby generate-xchainkeys.rb > ~/.config/xchainkeys/xchainkeys.conf
+#This assumes that you have grid-wm as an alias or in your PATH (executable)
+#Use this script like: ruby generate-xchainkeys.rb > ~/.config/xchainkeys/xchainkeys.config
 
+#Should correspond to the Grid Your using in grid-wm
 $gridKeys = [
 	[ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ],
 	[ 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p' ],
@@ -11,9 +11,19 @@ $gridKeys = [
 	[ 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/' ]
 ]
 
-puts "feedback on"
-puts "timeout 0"
-puts "delay 0"
+#Default Chain is Windows Keys (w) and x, Change this if wanted
+$chain = "W-x"
+
+#This assumes you copied grid-wm to a folder called bin in home directory
+$gridWmLocation = "~/bin/grid-wm" 
+
+puts [
+	"feedback on",
+	"timeout 0",
+	"delay 0",
+	"foreground white",
+	"background black"
+]
 
 def crawl(s)
 	$gridKeys.each_with_index do |row, column|
@@ -29,7 +39,7 @@ def crawl(s)
 				s1 = replacements[s] || s
 				cell1 = replacements[cell] || cell
 
-				puts "W-x #{s1} #{cell1} :exec grid-wm #{s}#{cell}"
+				puts "#{$chain} #{s1} #{cell1} :exec #{$gridWmLocation} '#{s}#{cell}'"
 			end
 		end
 	end
