@@ -3,7 +3,9 @@ Keyboard Tiler
 
 What is it?
 -----------
-Would it not be awesome if your keyboard could represent the grid/tiles of your screen? Well this is exactly that. It's some ruby script place windows on the tiles of your screen representing the tiles(keys) of your keyboard. The keys from 1 down to Z over to / and up to 0 forms a 4x10 grid, giving us 40 tiles to work with.
+Why not have the keyboard represent the grid/tiles of your screen? Well this is exactly that. It's a ruby script place windows on the tiles of your screen representing the tiles(keys) of your keyboard. The keys from 1 down to Z over to / and up to 0 forms a 4x10 grid, giving us 40 tiles to work with.
+
+With this script you can have tiling functionality with simple keybindings in any floating WM. It has been tested on pekwm and openbox so far, though any window manager that places well with xdotool it should work with.
 
 Some examples (look down at your keyboard and you'll get the idea):
 - Fullscreen: `ruby keyboard-tiler.rb 1/`
@@ -13,14 +15,14 @@ Some examples (look down at your keyboard and you'll get the idea):
 - Theree Fifths of Screen: `ruby keyboard-tiler.rb 1n`
 - Right Two Fifths of Screen: `ruby keyboard-tiler.rb 6/`
 
-The best part? You can hook this into a chorded keymap program such as xchainkeys or just pipe it from dmenu.
+The best part? You can hook this into a chorded keymap program such as xchainkeys or just pipe it from dmenu. 
 
 Usage
 -----
 
 **Prerequisites:** ruby, xdotool
 
-Keyboard Tiler is just a simple script so installation is as simple as throwing the script in your $PATH. Ofcourse you can just run the script from it's directory like ```ruby keyboard-tiler.rb``` as well.
+Keyboard Tiler is just a simple script so using it is as simple as ```ruby keyboard-tiler.rb 1/``` (that would make a window fullscreen). You can also copy the script to your $PATH to have acessible anywhere.
 
 ### Usage with xchainkeys
 [Xchainkeys](http://code.google.com/p/xchainkeys/) provides chorded/chained keybindings for X11. Xchainkeys can be used to hook into keyboard-tiler.rb very easily. Installation details for xchainkeys can be found [here](http://code.google.com/p/xchainkeys/).
@@ -37,13 +39,13 @@ Keyboard Tiler is just a simple script so installation is as simple as throwing 
 
 
 - Add the following to your ```.xbindkeys```
-``` bash
+``` 
 "echo Hit 2 Keys and Enter | dmenu -b -p 'Grid Window Manager' | xargs -0 -I KEYS grid-wm 'KEYS'"
 	m:0x40 + c:53
 	Mod4 + x
 ```
 - Start xbindkeys like ```xbindkeys```
-- Hit W-s and then two sucessive key and enter
+- Hit ```W-x``` and then two sucessive key and enter
 - Add xbindkeys to your ```.xinitrc``` to have it autostart
 
 Bugs, Comments, Improvements?
