@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+require 'pp'
 # keyboard-tiler: A CLI to positions windows on the grid of your screen using xdotool
 # Usage: 
 # keyboard-tiler a/  (This would place the window on the bottom half of your screen)
@@ -79,14 +80,13 @@ def main
 		:height => $tiles.length
 	}
 
-	#Swap values if start is further in then end
-	if (
-		(pairs[:start][:x] > pairs[:end][:x]) || 
-		(pairs[:start][:y] > pairs[:end][:y])
-	) then
-		pairs[:start], pairs[:end] = pairs[:end], pairs[:start]
-	end
-
+	pairs[:start], pairs[:end] = {
+		:x => [pairs[:start][:x], pairs[:end][:x]].min,
+		:y => [pairs[:start][:y], pairs[:end][:y]].min
+	}, {
+		:x => [pairs[:start][:x], pairs[:end][:x]].max,
+		:y => [pairs[:start][:y], pairs[:end][:y]].max
+	}
 
 	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber], gridDimensions)
 end
