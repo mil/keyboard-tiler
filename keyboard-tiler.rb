@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-require 'pp'
 # keyboard-tiler: A CLI to positions windows on the grid of your screen using xdotool
 # Usage: 
 # keyboard-tiler a/  (This would place the window on the bottom half of your screen)
@@ -14,8 +13,23 @@ $tiles = [
 #Height of your window decorations, just set 0 if none
 $decorationsHeight = 20
 
-def repositionWindow(squareA, squareB, screen, gridDimensions) 
-	#Calculate Height and width factor based on passed screen and grid
+def repositionWindow(squareA, squareB, screen) 
+
+	gridDimensions = {
+		:width => $tiles[0].length,
+		:height => $tiles.length
+	}
+
+	#Make sure tiles go from left top most to bottom right most
+	squareA, squareB = {
+		:x => [squareA[:x], squareB[:x]].min,
+		:y => [squareA[:y], squareB[:y]].min
+	}, {
+		:x => [squareA[:x], squareB[:x]].max,
+		:y => [squareA[:y], squareB[:y]].max
+	}
+
+	#Calculate Height and width factor based on passed screen and gridDimensions
 	heightFactor = screen[:height] / gridDimensions[:height]
 	widthFactor  = screen[:width]  / gridDimensions[:width]
 
@@ -75,20 +89,7 @@ def main
 		end
 	end	
 
-	gridDimensions = {
-		:width => $tiles[0].length,
-		:height => $tiles.length
-	}
-
-	pairs[:start], pairs[:end] = {
-		:x => [pairs[:start][:x], pairs[:end][:x]].min,
-		:y => [pairs[:start][:y], pairs[:end][:y]].min
-	}, {
-		:x => [pairs[:start][:x], pairs[:end][:x]].max,
-		:y => [pairs[:start][:y], pairs[:end][:y]].max
-	}
-
-	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber], gridDimensions)
+	repositionWindow(pairs[:start], pairs[:end], screens[screenNumber])
 end
 
 main
