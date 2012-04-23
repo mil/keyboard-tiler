@@ -21,7 +21,7 @@ Usage
 
 **Prerequisites:** ruby, xdotool
 
-Keyboard Tiler is just a simple script so using it is as simple as ```ruby keyboard-tiler.rb 1/``` (that would make a window fullscreen). You can also copy the script to your $PATH to have acessible anywhere. I'd reccomend throwing it in a personal bin folder (like ```~/bin```).
+Keyboard Tiler is just a simple script so using it is as simple as ```ruby keyboard-tiler.rb 1/``` (that would make a window fullscreen). You can also copy the script to your $PATH to have accessible anywhere. I'd recommend throwing it in a personal bin folder (like ```~/bin```).
 
 ### Usage with xchainkeys
 [Xchainkeys](http://code.google.com/p/xchainkeys/) provides chorded/chained keybindings for X11. Xchainkeys can be used to hook into keyboard-tiler.rb very easily. Installation details for xchainkeys can be found [here](http://code.google.com/p/xchainkeys/).
@@ -37,13 +37,11 @@ Keyboard Tiler is just a simple script so using it is as simple as ```ruby keybo
 ### Usage with Dmenu & xbindkeys
 [Dmenu](http://tools.suckless.org/dmenu/) provides an excellent way to run the script in a chorded type of fashion but not having to run xchainkeys. If you're a loyal Dmenu user this option will appeal to you.
 
-- Add the following to your ```.xbindkeys```
-```
-"echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
+- Add the following to your ```~/.xbindkeys```
 
+```"echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
 m:0x40 + c:53
-Mod4 + x
-```
+Mod4 + x```
 - Start xbindkeys like ```xbindkeys```
 - Hit ```W-x``` and then two sucessive key and enter
 - Add xbindkeys to your ```.xinitrc``` to have it autostart
