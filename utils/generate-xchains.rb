@@ -25,6 +25,15 @@ puts [
 	"background black"
 ]
 
+#Continous Mode (doesnt stop resizing until hit Enter/Escape)
+if ARGV[0] == "moded" then
+	puts [
+		"#{$chain} :enter abort=manual",
+		"#{$chain} Return abort=manual",
+		"#{$chain} Escape abort=manual"
+	] 
+end
+
 def crawl(s)
 	$tiles.each_with_index do |row, column|
 		row.each_with_index do |cell, count|

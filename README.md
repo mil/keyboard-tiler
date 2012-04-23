@@ -2,9 +2,9 @@ Keyboard Tiler
 ===================
 What is it?
 -----------
-Why not have your keyboard represent the grid/tiles of your screen? This is a ruby script place windows on the tiles of your screen representing the tiles(keys) of your keyboard. The keys from 1 down to Z over to / and up to 0 forms a 4x10 grid, giving us 40 tiles to work with.
+Why not have your keyboard represent the grid/tiles of your screen? This is a ruby script to place windows on the tiles of your screen representing the tiles(keys) of your keyboard. The keys from 1 down to Z over to / and up to 0 forms a 4x10 grid, giving us 40 tiles to work with.
 
-With this script you can have tiling functionality with simple keybindings in any floating WM. It has been tested on pekwm and openbox so far, though any window manager that works well with xdotool should work.
+With this script you can have tiling functionality with simple keybindings in any floating WM. It has been tested on Pekwm and Openbox so far, though any window manager that works well with xdotool should work.
 
 Some examples (look down at your keyboard and you'll get the idea):
 - Fullscreen: `ruby keyboard-tiler.rb 1/`
@@ -21,25 +21,27 @@ Usage
 
 **Prerequisites:** ruby, xdotool
 
-Keyboard Tiler is just a simple script so using it is as simple as ```ruby keyboard-tiler.rb 1/``` (that would make a window fullscreen). You can also copy the script to your $PATH to have acessible anywhere.
+Keyboard Tiler is just a simple script so using it is as simple as ```ruby keyboard-tiler.rb 1/``` (that would make a window fullscreen). You can also copy the script to your $PATH to have acessible anywhere. I'd reccomend throwing it in a personal bin folder (like ```~/bin```).
 
 ### Usage with xchainkeys
 [Xchainkeys](http://code.google.com/p/xchainkeys/) provides chorded/chained keybindings for X11. Xchainkeys can be used to hook into keyboard-tiler.rb very easily. Installation details for xchainkeys can be found [here](http://code.google.com/p/xchainkeys/).
 
-- First edit the ```generate-xchains.rb``` script provided in utils to fit your needs 
-- Generate the xchainkeys script : ```ruby generate xchains.rb > ~/.config/xchainkeys/xchainkeys.conf```
+- Once xchainkeys is installed, edit the ```generate-xchains.rb``` script provided in utils to fit your needs 
+- Generate your xchainkeys config using the provided script: ```ruby generate-xchains.rb > ~/.config/xchainkeys/xchainkeys.conf```
+	* Optional: The "moded" option enables you to hit 2 keys continually to fire Keyboard Tiler until Escape/Enter hit
+		- ```ruby generate-xchains.rb moded > ~/.config/xchainkeys/xchainkeys.conf```
 - That's it! Run ```xchainkeys && disown``` and your done. 
-- Hit W-x and then two sucessive keys
+- Hit W-x (or your specified hotkey) and then two sucessive keys
 - Add xchainkeys to your ```.xinitrc``` to have it autostart
 
 
 ### Usage with Dmenu & xbindkeys
 [Dmenu](http://tools.suckless.org/dmenu/) provides an excellent way to run the script in a chorded type of fashion but not having to run xchainkeys. If you're a loyal Dmenu user this option will appeal to you.
 
-
 - Add the following to your ```.xbindkeys```
 ``` 
 "echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
+
 m:0x40 + c:53
 Mod4 + x
 ```
@@ -47,11 +49,11 @@ Mod4 + x
 - Hit ```W-x``` and then two sucessive key and enter
 - Add xbindkeys to your ```.xinitrc``` to have it autostart
 
-Feedback, Contributing?
-------------------------
-- All feedback is welcomed!
-- Feel free to fork this repo create a topic branch and issue a pull request if you find any bugs or have made improvements.
+Contributing
+------------
+- All feedback is welcome!
+- Feel free to fork this repo create a topic branch and issue me a pull request.
 
 More Info
 ---------
-- [Project Page on Userbound.Com](http://userbound.com/projects/keyboard-tiler)
+- [Project Page on My Site](http://userbound.com/projects/keyboard-tiler)
