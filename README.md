@@ -38,7 +38,7 @@ Keyboard Tiler is just a simple script so using it is as simple as ```ruby keybo
 [Dmenu](http://tools.suckless.org/dmenu/) provides an excellent way to run the script in a chorded type of fashion but not having to run xchainkeys. If you're a loyal Dmenu user this option will appeal to you.
 
 - Add the following to your ```.xbindkeys```
-- ``` 
+```
 "echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
 
 m:0x40 + c:53
