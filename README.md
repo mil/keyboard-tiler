@@ -1,11 +1,10 @@
 Keyboard Tiler
 ===================
-
 What is it?
 -----------
-Why not have the keyboard represent the grid/tiles of your screen? Well this is exactly that. It's a ruby script place windows on the tiles of your screen representing the tiles(keys) of your keyboard. The keys from 1 down to Z over to / and up to 0 forms a 4x10 grid, giving us 40 tiles to work with.
+Why not have your keyboard represent the grid/tiles of your screen? This is a ruby script place windows on the tiles of your screen representing the tiles(keys) of your keyboard. The keys from 1 down to Z over to / and up to 0 forms a 4x10 grid, giving us 40 tiles to work with.
 
-With this script you can have tiling functionality with simple keybindings in any floating WM. It has been tested on pekwm and openbox so far, though any window manager that places well with xdotool it should work with.
+With this script you can have tiling functionality with simple keybindings in any floating WM. It has been tested on pekwm and openbox so far, though any window manager that works well with xdotool should work.
 
 Some examples (look down at your keyboard and you'll get the idea):
 - Fullscreen: `ruby keyboard-tiler.rb 1/`
@@ -15,7 +14,7 @@ Some examples (look down at your keyboard and you'll get the idea):
 - Theree Fifths of Screen: `ruby keyboard-tiler.rb 1n`
 - Right Two Fifths of Screen: `ruby keyboard-tiler.rb 6/`
 
-The best part? You can hook this into a chorded keymap program such as xchainkeys or just pipe it from dmenu. 
+The best part? You can hook this into a chorded keymap program such as xchainkeys or just pipe it from dmenu.
 
 Usage
 -----
@@ -40,14 +39,19 @@ Keyboard Tiler is just a simple script so using it is as simple as ```ruby keybo
 
 - Add the following to your ```.xbindkeys```
 ``` 
-"echo Hit 2 Keys and Enter | dmenu -b -p 'Grid Window Manager' | xargs -0 -I KEYS grid-wm 'KEYS'"
-	m:0x40 + c:53
-	Mod4 + x
+"echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
+m:0x40 + c:53
+Mod4 + x
 ```
 - Start xbindkeys like ```xbindkeys```
 - Hit ```W-x``` and then two sucessive key and enter
 - Add xbindkeys to your ```.xinitrc``` to have it autostart
 
-Bugs, Comments, Improvements?
------------------------------
-- Feel free to fork this repo and issue a pull request to me.
+Feedback, Contributing?
+------------------------
+- All feedback is welcomed!
+- Feel free to fork this repo create a topic branch and issue a pull request if you find any bugs or have made improvements.
+
+More Info
+---------
+- [Project Page on Userbound.Com](http://userbound.com/projects/keyboard-tiler)
