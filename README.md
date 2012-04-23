@@ -27,9 +27,8 @@ Keyboard Tiler is just a simple script so using it is as simple as ```ruby keybo
 [Xchainkeys](http://code.google.com/p/xchainkeys/) provides chorded/chained keybindings for X11. Xchainkeys can be used to hook into keyboard-tiler.rb very easily. Installation details for xchainkeys can be found [here](http://code.google.com/p/xchainkeys/).
 
 - Once xchainkeys is installed, edit the ```generate-xchains.rb``` script provided in utils to fit your needs 
-- Generate your xchainkeys config using the provided script: ```ruby generate-xchains.rb > ~/.config/xchainkeys/xchainkeys.conf```
-	* Optional: The "moded" option enables you to hit 2 keys continually to fire Keyboard Tiler until Escape/Enter hit
-		- ```ruby generate-xchains.rb moded > ~/.config/xchainkeys/xchainkeys.conf```
+- Generate xchainkeys config using provided script: ```ruby generate-xchains.rb > ~/.config/xchainkeys/xchainkeys.conf```
+	* Optional: "moded" option: ```ruby generate-xchains.rb moded > ~/.config/xchainkeys/xchainkeys.conf```
 - That's it! Run ```xchainkeys && disown``` and your done. 
 - Hit W-x (or your specified hotkey) and then two sucessive keys
 - Add xchainkeys to your ```.xinitrc``` to have it autostart
@@ -39,7 +38,7 @@ Keyboard Tiler is just a simple script so using it is as simple as ```ruby keybo
 [Dmenu](http://tools.suckless.org/dmenu/) provides an excellent way to run the script in a chorded type of fashion but not having to run xchainkeys. If you're a loyal Dmenu user this option will appeal to you.
 
 - Add the following to your ```.xbindkeys```
-``` 
+- ``` 
 "echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
 
 m:0x40 + c:53
