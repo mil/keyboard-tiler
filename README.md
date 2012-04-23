@@ -8,13 +8,12 @@ With this script you can have tiling functionality with simple keybindings in an
 
 Some examples (look down at your keyboard and you'll get the idea):
 - Fullscreen: `ruby keyboard-tiler.rb 1/`
-- Half of Screen: `ruby keyboard-tiler.rb 1p`
-- Right of Screen: `ruby keyboard-tiler.rb 6p`
-- Left of Screen: `ruby keyboard-tiler.rb 1g`
-- Theree Fifths of Screen: `ruby keyboard-tiler.rb 1n`
-- Right Two Fifths of Screen: `ruby keyboard-tiler.rb 6/`
+- Top Half of Screen: `ruby keyboard-tiler.rb 1p`
+- Top Right of Screen: `ruby keyboard-tiler.rb 6p`
+- Right Half of Screen: `ruby keyboard-tiler.rb 6/`
 
 The best part? You can hook this into a chorded keymap program such as xchainkeys or just pipe it from dmenu.
+
 
 Usage
 -----
@@ -39,9 +38,12 @@ Keyboard Tiler is just a simple script so using it is as simple as ```ruby keybo
 
 - Add the following to your ```~/.xbindkeys```
 
-```"echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
+
+``` bash
+"echo Hit 2 Keys and Enter | dmenu -b -p 'Keyboard Tiler' | xargs -0 -I KEYS ruby ~/bin/keyboard-tiler.rb 'KEYS'"
 m:0x40 + c:53
-Mod4 + x```
+Mod4 + x
+```
 - Start xbindkeys like ```xbindkeys```
 - Hit ```W-x``` and then two sucessive key and enter
 - Add xbindkeys to your ```.xinitrc``` to have it autostart
