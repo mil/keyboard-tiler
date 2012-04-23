@@ -28,19 +28,17 @@ puts [
 def crawl(s)
 	$tiles.each_with_index do |row, column|
 		row.each_with_index do |cell, count|
-			if (cell != s) then
-				replacements = {
-					';' => "semicolon",
-					',' => "comma",
-					'.' => "period",
-					'/' => "slash"
-				}
+			replacements = {
+				';' => "semicolon",
+				',' => "comma",
+				'.' => "period",
+				'/' => "slash"
+			}
 
-				s1 = replacements[s] || s
-				cell1 = replacements[cell] || cell
+			s1 = replacements[s] || s
+			cell1 = replacements[cell] || cell
 
-				puts "#{$chain} #{s1} #{cell1} :exec #{$keyboardTilerLocation} '#{s}#{cell}'"
-			end
+			puts "#{$chain} #{s1} #{cell1} :exec #{$keyboardTilerLocation} '#{s}#{cell}'"
 		end
 	end
 end
