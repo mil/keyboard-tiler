@@ -48,11 +48,16 @@ Mod4 + x
 - Hit ```W-x``` and then two sucessive key and enter
 - Add xbindkeys to your ```.xinitrc``` to have it autostart
 
+Todos
+-----
+- **Multi-monitor Support**: Currently keyboard-tiler only supports 1-2 monitors.
+
 Contributing
 ------------
 - All feedback is welcome!
 - Feel free to fork this repo create a topic branch and issue me a pull request.
 
-More Info
----------
+More Info & Links
+-----------------
 - [Project Page on My Site](http://userbound.com/projects/keyboard-tiler)
+- [A Python Port](https://github.com/ShadowKyogre/keyboard-tiler) by ShadowKyogre
